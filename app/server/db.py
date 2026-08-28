@@ -8,12 +8,19 @@ _w = get_workspace_client()
 ENDPOINT_NAME = os.environ["ENDPOINT_NAME"]
 
 
+def _lakebase_token() -> str:
+    """Generate a Lakebase OAuth credential via REST (SDK-version independent).
+    Uses the authenticated WorkspaceClient (app service principal in the app runtime)."""
+    resp = _w.api_client.do("POST", "/api/2.0/postgres/credentials",
+                            body={"endpoint": ENDPOINT_NAME})
+    return resp["token"]
+
+
 class OAuthConnection(psycopg.Connection):
     """Fresh OAuth token per new/recycled connection (no background refresh needed)."""
     @classmethod
     def connect(cls, conninfo="", **kwargs):
-        cred = _w.postgres.generate_database_credential(endpoint=ENDPOINT_NAME)
-        kwargs["password"] = cred.token
+        kwargs["password"] = _lakebase_token()
         return super().connect(conninfo, **kwargs)
 
 
