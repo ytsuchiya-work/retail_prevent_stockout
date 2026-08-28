@@ -1,0 +1,20 @@
+bundle:
+  name: retail_prevent_stockout
+
+variables:
+  catalog:
+    default: classic_stable_ytcy_catalog
+  schema:
+    default: retail_prevent_stockout
+  warehouse_id:
+    default: e351c2d1b16eae95
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://fevm-classic-stable-ytcy.cloud.databricks.com
+
+include:
+  - resources/*.yml

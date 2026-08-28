@@ -1,0 +1,12 @@
+resources:
+  pipelines:
+    retail_pipeline:
+      name: rps_retail_pipeline
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      photon: true
+      channel: CURRENT
+      libraries:
+        - glob:
+            include: ../pipelines/retail_pipeline.py

@@ -1,0 +1,28 @@
+command:
+  - "python"
+  - "-m"
+  - "uvicorn"
+  - "app:app"
+  - "--host"
+  - "0.0.0.0"
+  - "--port"
+  - "8000"
+
+env:
+  # Lakebase (Autoscaling) endpoint. PGHOST/PGUSER/PGPORT/PGDATABASE are auto-injected
+  # when the "Database" app resource is attached; ENDPOINT_NAME is required for OAuth token gen.
+  - name: ENDPOINT_NAME
+    value: "projects/rps-retail/branches/production/endpoints/primary"
+  - name: PGHOST
+    value: "ep-lively-river-dcekalbg.database.ap-northeast-1.cloud.databricks.com"
+  - name: PGUSER
+    value: "7f859a89-0944-4a3a-b06b-2cdd50a21721"   # app service principal client id (= Postgres role)
+  - name: PGDATABASE
+    value: "retail"
+  - name: PGPORT
+    value: "5432"
+  - name: PGSSLMODE
+    value: "require"
+  # Genie space for the embedded Q&A tab (set after Genie room is created)
+  - name: GENIE_SPACE_ID
+    value: "01f1a2a9bf2e1a74a3a840362e0dae53"
